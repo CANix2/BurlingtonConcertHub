@@ -6,9 +6,8 @@ import './NewPost.css';
 interface PostFormData {
   artistName: string;
   content: string;
-  venue?: string;
+  venue: string;
   rating: number;
-  tags: string[];
 }
 
 // what can cause errors
@@ -27,13 +26,11 @@ const NewPost: React.FC = () => {
     venue: '',
     rating: 0,
     content: '',
-    tags: []
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
-  const [tagInput, setTagInput] = useState<string>('');
 
   // VENUES
   const VENUES = [
@@ -65,31 +62,6 @@ const NewPost: React.FC = () => {
       ...prev,
       rating
     }));
-  };
-
-  // Handle tags
-  const handleAddTag = () => {
-    if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        tags: [...prev.tags, tagInput.trim()]
-      }));
-      setTagInput('');
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove: string) => {
-    setFormData(prev => ({
-      ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
-    }));
-  };
-
-  const handleTagKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAddTag();
-    }
   };
 
   // Validate form
@@ -135,7 +107,6 @@ const NewPost: React.FC = () => {
           venue: '',
           rating: 0,
           content: '',
-          tags: []
         });
         setSubmitSuccess(false);
       }, 3000);
@@ -251,44 +222,6 @@ const NewPost: React.FC = () => {
           <span className="character-count">
             {formData.content.length} characters
           </span>
-        </div>
-
-        {/* Tags */}
-        <div className="form-group">
-          <label htmlFor="tags">Tags (Optional)</label>
-          <div className="tags-input-container">
-            <input
-              type="text"
-              id="tags"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyPress={handleTagKeyPress}
-              placeholder="Add tags and press Enter"
-              disabled={isSubmitting}
-            />
-            <button
-              type="button"
-              onClick={handleAddTag}
-              className="add-tag-btn"
-              disabled={isSubmitting || !tagInput.trim()}
-            >
-              Add Tag
-            </button>
-          </div>
-          <div className="tags-container">
-            {formData.tags.map(tag => (
-              <span key={tag} className="tag">
-                {tag}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveTag(tag)}
-                  className="remove-tag"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
         </div>
 
         {/* Success & Error messages */}
