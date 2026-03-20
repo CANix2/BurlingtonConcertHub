@@ -7,10 +7,7 @@ interface PostFormData {
   artistName: string;
   content: string;
   venue?: string;
-  artist?: string;
-  concertDate?: string;
   rating: number;
-  image?: File | null;
   tags: string[];
 }
 
@@ -19,8 +16,6 @@ interface FormErrors {
   artistName?: string;
   content?: string;
   venue?: string;
-  artist?: string;
-  concertDate?: string;
   rating?: number;
   general?: string;
 }
@@ -29,18 +24,15 @@ const NewPost: React.FC = () => {
   // Initial form state
   const [formData, setFormData] = useState<PostFormData>({
     artistName: '',
-    content: '',
     venue: '',
-    artist: '',
-    concertDate: '',
     rating: 0,
+    content: '',
     tags: []
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [tagInput, setTagInput] = useState<string>('');
 
   // VENUES
@@ -140,14 +132,11 @@ const NewPost: React.FC = () => {
       setTimeout(() => {
         setFormData({
           artistName: '',
-          content: '',
           venue: '',
-          artist: '',
-          concertDate: '',
           rating: 0,
+          content: '',
           tags: []
         });
-        setImagePreview(null);
         setSubmitSuccess(false);
       }, 3000);
       
@@ -188,20 +177,6 @@ const NewPost: React.FC = () => {
         <h2>Create New Post</h2>
         <p className="subTitle">Share your Vermont concert experience with the community</p>
       </div>
-
-      {submitSuccess && (
-        <div className="success-message">
-          <span className="success-icon">✓</span>
-          <p>Post created successfully!</p>
-        </div>
-      )}
-
-      {errors.general && (
-        <div className="error-message">
-          <span className="error-icon">⚠</span>
-          <p>{errors.general}</p>
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="new-post-form">
 
@@ -315,6 +290,20 @@ const NewPost: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Success & Error messages */}
+        {submitSuccess && (
+        <div className="success-message">
+          <span className="success-icon">✓</span>
+          <p>Post created successfully!</p>
+        </div>
+      )}
+        {errors.general && (
+        <div className="error-message">
+          <span className="error-icon">⚠</span>
+          <p>{errors.general}</p>
+        </div>
+      )}
 
         {/* Submit Button */}
         <div className="form-actions">
