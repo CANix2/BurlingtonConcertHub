@@ -6,12 +6,8 @@ import './NewPost.css';
 interface PostFormData {
   artistName: string;
   content: string;
-  venue?: string;
-  artist?: string;
-  concertDate?: string;
+  venue: string;
   rating: number;
-  image?: File | null;
-  tags: string[];
 }
 
 // what can cause errors
@@ -19,8 +15,6 @@ interface FormErrors {
   artistName?: string;
   content?: string;
   venue?: string;
-  artist?: string;
-  concertDate?: string;
   rating?: number;
   general?: string;
 }
@@ -29,19 +23,14 @@ const NewPost: React.FC = () => {
   // Initial form state
   const [formData, setFormData] = useState<PostFormData>({
     artistName: '',
-    content: '',
     venue: '',
-    artist: '',
-    concertDate: '',
     rating: 0,
-    tags: []
+    content: '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [tagInput, setTagInput] = useState<string>('');
 
   // VENUES
   const VENUES = [
@@ -73,31 +62,6 @@ const NewPost: React.FC = () => {
       ...prev,
       rating
     }));
-  };
-
-  // Handle tags
-  const handleAddTag = () => {
-    if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        tags: [...prev.tags, tagInput.trim()]
-      }));
-      setTagInput('');
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove: string) => {
-    setFormData(prev => ({
-      ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
-    }));
-  };
-
-  const handleTagKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAddTag();
-    }
   };
 
   // Validate form
@@ -140,14 +104,10 @@ const NewPost: React.FC = () => {
       setTimeout(() => {
         setFormData({
           artistName: '',
-          content: '',
           venue: '',
-          artist: '',
-          concertDate: '',
           rating: 0,
-          tags: []
+          content: '',
         });
-        setImagePreview(null);
         setSubmitSuccess(false);
       }, 3000);
       
@@ -188,20 +148,6 @@ const NewPost: React.FC = () => {
         <h2>Create New Post</h2>
         <p className="subTitle">Share your Vermont concert experience with the community</p>
       </div>
-
-      {submitSuccess && (
-        <div className="success-message">
-          <span className="success-icon">✓</span>
-          <p>Post created successfully!</p>
-        </div>
-      )}
-
-      {errors.general && (
-        <div className="error-message">
-          <span className="error-icon">⚠</span>
-          <p>{errors.general}</p>
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="new-post-form">
 
@@ -278,43 +224,19 @@ const NewPost: React.FC = () => {
           </span>
         </div>
 
-        {/* Tags */}
-        <div className="form-group">
-          <label htmlFor="tags">Tags (Optional)</label>
-          <div className="tags-input-container">
-            <input
-              type="text"
-              id="tags"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyPress={handleTagKeyPress}
-              placeholder="Add tags and press Enter"
-              disabled={isSubmitting}
-            />
-            <button
-              type="button"
-              onClick={handleAddTag}
-              className="add-tag-btn"
-              disabled={isSubmitting || !tagInput.trim()}
-            >
-              Add Tag
-            </button>
-          </div>
-          <div className="tags-container">
-            {formData.tags.map(tag => (
-              <span key={tag} className="tag">
-                {tag}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveTag(tag)}
-                  className="remove-tag"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
+        {/* Success & Error messages */}
+        {submitSuccess && (
+        <div className="success-message">
+          <span className="success-icon">✓</span>
+          <p>Post created successfully!</p>
         </div>
+      )}
+        {errors.general && (
+        <div className="error-message">
+          <span className="error-icon">⚠</span>
+          <p>{errors.general}</p>
+        </div>
+      )}
 
         {/* Submit Button */}
         <div className="form-actions">

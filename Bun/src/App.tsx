@@ -32,7 +32,9 @@ export function App() {
   return (
     <BrowserRouter>
       <>
-        <h1 className="header">Vermont Concert Hub</h1>
+        <h1 className="mx-auto bg-green-800 text-center text-white mt-1 mb-1 max-w-sm object-center pt-1 pb-1 rounded-xl">
+          Vermont Concert Hub
+          </h1>
         <Navigation />
         <Routes>
           <Route path="/new-post" element={<NewPostPage />} />
