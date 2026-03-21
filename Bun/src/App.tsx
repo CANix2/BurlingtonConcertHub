@@ -1,6 +1,7 @@
 import "./index.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import NewPostPage from "./pages/NewPostPage.tsx";
+import MyPostsPage from "./pages/MyPostsPage.tsx";
 
 function Navigation() {
   return (
@@ -35,6 +36,7 @@ export function App() {
         <Navigation />
         <Routes>
           <Route path="/new-post" element={<NewPostPage />} />
+          <Route path="/your-posts" element={<MyPostsPage />} />
         </Routes>
       </>
     </BrowserRouter>
