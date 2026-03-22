@@ -2,7 +2,9 @@
 import React, { useState, type FormEvent, type ChangeEvent } from 'react';
 import type { PostData } from '../types';
 import { MOCK_POSTS } from '../data/MockPosts.tsx';
+
 import './MyPosts.css';
+import PostHolder from './PostHolder.tsx';
 
 
 
@@ -24,7 +26,7 @@ const MyPostsPage: React.FC = () => {
   const [posts, setPosts] = useState<PostData[]>(MOCK_POSTS);
   const [errors, setErrors] = useState<FormErrors>({});
 
-  
+
   const hasPosts = posts.length > 0;
 
 
@@ -42,8 +44,8 @@ const MyPostsPage: React.FC = () => {
       {hasPosts ? (
         <div className="posts-list">
           {posts.map(post => (
-            // <PostCard key={post.id} post={post} />
-            <div key={post.id}>{post.artistName}</div> // placeholder until PostCard exists
+            <PostHolder key={post.id} post={post} />
+            // <div key={post.id}>{post.artistName}</div> // placeholder until PostCard exists
           ))}
         </div>
       ) : (
