@@ -112,6 +112,19 @@
   font-size: 0.9rem;
 }
 
+/* Heart for Likes */
+.heart-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #ddd;
+  line-height: 1;
+}
+
+.heart-btn.active {
+  color: #e74c3c;
+}
+
 /* Image Upload */
 .image-upload-container {
   display: flex;
@@ -213,6 +226,8 @@
   padding: 4rem 2rem;
   color: #95a5a6;
 }
+
+
 
 
 

@@ -19,6 +19,10 @@ interface FormErrors {
   general?: string;
 }
 
+
+
+
+
 // Subcomponents?
 
 const MyPostsPage: React.FC = () => {
@@ -26,8 +30,19 @@ const MyPostsPage: React.FC = () => {
   const [posts, setPosts] = useState<PostData[]>(MOCK_POSTS);
   const [errors, setErrors] = useState<FormErrors>({});
 
+  // for liking a post
+  const handleLike = (id: string) => {
+    setPosts(prev =>
+      prev.map(p => p.id === id ? { ...p, likes: p.likes + 1 } : p)
+    );
+  };
 
   const hasPosts = posts.length > 0;
+
+  
+
+
+
 
 
   return (
@@ -44,7 +59,8 @@ const MyPostsPage: React.FC = () => {
       {hasPosts ? (
         <div className="posts-list">
           {posts.map(post => (
-            <PostHolder key={post.id} post={post} />
+            <PostHolder key={post.id} post={post} onLike={handleLike} />
+            
             // <div key={post.id}>{post.artistName}</div> // placeholder until PostCard exists
           ))}
         </div>

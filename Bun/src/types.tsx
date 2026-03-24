@@ -10,6 +10,7 @@ export interface PostData {
   image?: File | null;
   tags: string[];
   postDate: Date;
+  likes: number;
 }
 
 export interface Venue {

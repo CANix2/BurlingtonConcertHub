@@ -11,6 +11,7 @@ export const MOCK_POSTS: PostData[] = [
     rating: 5,
     tags: ['jam band', 'vermont', 'live music'],
     postDate: new Date('2024-11-16'),
+    likes: 10
   },
   {
     id: '2',
@@ -21,5 +22,6 @@ export const MOCK_POSTS: PostData[] = [
     rating: 4,
     tags: ['indie pop', 'local'],
     postDate: new Date('2024-10-04'),
+    likes: 5
   },
 ];
