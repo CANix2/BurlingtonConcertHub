@@ -25,19 +25,40 @@ const Register = ({ onRegisterSuccess }: RegisterProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     // validation
-    if (!name || !email || !password) {
+    if (!email || !password || !name) {
         alert("Please fill in all fields");
         return;
     }
 
-    // tell app that user is logged in
-    onRegisterSuccess({ name, email });
+    try {
+        const response = await fetch("http://localhost:3001/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, password })
+        });
 
-    // redirect to home page
-    navigate("/");
-}
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Registration failed");
+        }
+
+        const user  = data;
+
+        // tell app that user is registered
+        onRegisterSuccess({name, email});
+
+        // redirect
+        navigate("/");
+    } catch (err: any) {
+  alert(err.message);
+  console.error(err);
+    }
+    };
 
   return (
     <>

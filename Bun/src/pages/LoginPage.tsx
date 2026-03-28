@@ -24,20 +24,41 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // validation
     if (!email || !password) {
         alert("Please fill in all fields");
         return;
     }
 
-    // tell app that user is logged in
-    // TODO: replace with actual validation logic later
-    onLoginSuccess({ name: email, email });
+    try {
+        const response = await fetch("http://localhost:3001/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
 
-    // redirect to home page
-    navigate("/");
-}
+        const data = await response.json();
+
+        if (!response.ok) {
+            const {error } = await response.json();
+            throw new Error(error || "Login failed");
+        }
+
+        const user  = await response.json();
+
+        // tell app that user is logged in
+        onLoginSuccess(user);
+
+        // redirect
+        navigate("/");
+    } catch (err) {
+        alert("Invalid credentials");
+    }
+    };
+
 
   return (
     <>
