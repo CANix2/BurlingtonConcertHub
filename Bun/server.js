@@ -37,6 +37,11 @@ app.post('/api/posts', async (req, res) => {
   }
 });
 
+app.get('/api/posts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM posts");
+  res.json(rows);
+});
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
