@@ -43,21 +43,18 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
         const data = await response.json();
 
         if (!response.ok) {
-            const {error } = await response.json();
-            throw new Error(error || "Login failed");
+            throw new Error(data.error || "Login failed");
         }
 
-        const user  = await response.json();
-
         // tell app that user is logged in
-        onLoginSuccess(user);
+        onLoginSuccess(data.user);
 
         // redirect
         navigate("/");
-    } catch (err) {
-        alert("Invalid credentials");
+    } catch (err: any) {
+        alert(err.message);
     }
-    };
+    }
 
 
   return (

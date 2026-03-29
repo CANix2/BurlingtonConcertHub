@@ -50,29 +50,31 @@ app.post('/api/register', async (req, res) => {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
 
 
-  // check for existing email
-  const [existing] = await pool.execute(
-  `SELECT id FROM accounts WHERE email = ?`,
-  [email]
-    );
+  // check for existing email (before hashing)
+  try {
+    const [existing] = await pool.execute(
+    `SELECT id FROM accounts WHERE email = ?`,
+    [email]
+  );
 
-    if (existing.length > 0) {
+   if (existing.length > 0) {
     return res.status(400).json({ error: 'Email already in use.' });
   }
 
-  try {
+  // only hash if email is free
+  const hashedPassword = await bcrypt.hash(password, 10);
+
     const [result] = await pool.execute(
-      `INSERT INTO accounts (email, name, password) VALUES (?, ?, ?)`,
-      [email, name, hashedPassword]
+        `INSERT INTO accounts (email, name, password) VALUES (?, ?, ?)`,
+        [email, name, hashedPassword]
     );
     res.status(201).json({ success: true, accountId: result.insertId });
-  } catch (err) {
+    } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error.' });
-  }
+    }
 });
 
 // POST /api/login
