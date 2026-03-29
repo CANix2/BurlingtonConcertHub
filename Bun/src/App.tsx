@@ -5,6 +5,7 @@ import NewPostPage from "./pages/NewPostPage.tsx";
 import MyPostsPage from "./pages/MyPostsPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
+import Feed from "./pages/Feed.tsx";
 
 // stores username and email
 interface User {
@@ -84,6 +85,7 @@ export function App() {
           <Route path="/your-posts" element={<MyPostsPage />} />
           <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/register" element={<RegisterPage onRegisterSuccess={handleLoginSuccess} />} />
+          <Route path="/feed" element={<Feed />} />
         </Routes>
       </>
     </BrowserRouter>

@@ -112,6 +112,11 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+app.get('/api/posts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM posts");
+  res.json(rows);
+});
+
 
 
 
