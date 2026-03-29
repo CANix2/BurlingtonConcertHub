@@ -23,7 +23,7 @@ const NewPost: React.FC = () => {
   // Initial form state
   const [formData, setFormData] = useState<PostFormData>({
     artistName: '',
-    venue: '',
+    venue: 'higher_ground',
     rating: 0,
     content: '',
   });
@@ -94,10 +94,20 @@ const NewPost: React.FC = () => {
     setErrors({});
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const response = await fetch('http://localhost:3001/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
       
-      console.log('Post submitted:', formData);
+      if (!response.ok) {
+        const { error } = await response.json();
+        throw new Error(error || 'Failed to create post.');
+      }
+
+      const data = await response.json();
+      console.log('server response:', data);
+
       setSubmitSuccess(true);
       
       // Reset form after successful submission
@@ -107,6 +117,7 @@ const NewPost: React.FC = () => {
           venue: '',
           rating: 0,
           content: '',
+          
         });
         setSubmitSuccess(false);
       }, 3000);
