@@ -6,7 +6,24 @@ import bcrypt from 'bcrypt';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+const IP = process.env.REACT_APP_API_URL;
+
+// CORS Configuration
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    '${IP}:3000',
+    '${IP}:3001',
+  ].filter(Boolean), // removes any undefined values if IP is not set
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // DB connection pool
@@ -15,6 +32,54 @@ const pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  connectTimeout: 10000,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0
+});
+
+// Test Database connection
+async function testDatabaseConnection() {
+  try {
+    const connection = await pool.getConnection();
+    console.log('Database connection SUCCESS')
+    connection.release();
+    return true;
+  } catch (err) {
+    console.error('Database connection FAILED:', err.message);
+    return false;
+  }
+}
+
+// Health check endpoint
+// Allows checking health of db connection from local machines
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    server: 'running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Test database endpoint
+app.get('/api/db-test', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT 1 as test, NOW() as time');
+    res.json({
+      success: true,
+      database: 'connected',
+      result: rows[0]
+    });
+  } catch (err) {
+    console.error('Database test ERROR:', err);
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
 });
 
 
@@ -124,6 +189,11 @@ app.get('/api/posts', async (req, res) => {
 
 
 const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log('Server running on port '+PORT);
+  console.log('Local: http://localhost:'+PORT);
+  console.log('Network: '+IP+':'+PORT)
+  console.log('CORS enabled for:', corsOptions.origin);
 });
