@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface RegisterProps {
-  onRegisterSuccess: (user: { name: string; email: string }) => void;
+  onRegisterSuccess: (user: { name: string; email: string }, token: string) => void;
 }
 
 
@@ -50,7 +50,7 @@ const Register = ({ onRegisterSuccess }: RegisterProps) => {
         const user  = data;
 
         // tell app that user is registered
-        onRegisterSuccess({name, email});
+        onRegisterSuccess({name, email}, data.token);
 
         // redirect
         navigate("/");

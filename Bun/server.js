@@ -3,11 +3,12 @@ import mysql from 'mysql2/promise';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 dotenv.config();
 
 const app = express();
-
 const IP = process.env.REACT_APP_API_URL;
+const JWT_SECRET = process.env.JWT_SECRET
 
 // CORS Configuration
 const corsOptions = {
@@ -116,7 +117,6 @@ app.post('/api/register', async (req, res) => {
   }
 
 
-
   // check for existing email (before hashing)
   try {
     const [existing] = await pool.execute(
@@ -135,7 +135,9 @@ app.post('/api/register', async (req, res) => {
         `INSERT INTO accounts (email, name, password) VALUES (?, ?, ?)`,
         [email, name, hashedPassword]
     );
-    res.status(201).json({ success: true, accountId: result.insertId });
+
+    const token = jwt.sign({ id: result.insertId, email }, JWT_SECRET, { expiresIn: '7d' });
+    res.status(201).json({ success: true, accountId: result.insertId, token });
     } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error.' });
@@ -170,7 +172,9 @@ app.post('/api/login', async (req, res) => {
     }
 
     const { password: _, ...safeUser } = user;
-    res.json({ success: true, user: safeUser });
+
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ success: true, user: safeUser, token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error.' });
@@ -180,6 +184,23 @@ app.post('/api/login', async (req, res) => {
 app.get('/api/posts', async (req, res) => {
   const [rows] = await pool.query("SELECT * FROM posts");
   res.json(rows);
+});
+
+app.get('/api/mu-posts ', async (req, res) => {
+    const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'Not authenticated.' });
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const [rows] = await pool.execute(
+      `SELECT * FROM posts WHERE account_id = ?`,
+      [decoded.id]
+    );
+    res.json(rows);
+  } catch (err) {
+    res.status(401).json({ error: 'Invalid or expired token.' });
+  }
 });
 
 
