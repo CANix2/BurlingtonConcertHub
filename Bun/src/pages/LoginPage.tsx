@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 interface LoginProps {
-  onLoginSuccess: (user: { name: string; email: string }) => void;
+  onLoginSuccess: (user: { name: string; email: string }, token: string) => void;
 }
 
 const Login = ({ onLoginSuccess }: LoginProps) => {
@@ -47,7 +47,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
         }
 
         // tell app that user is logged in
-        onLoginSuccess(data.user);
+        onLoginSuccess(data.user, data.token);
 
         // redirect
         navigate("/");

@@ -1,11 +1,12 @@
 import "./index.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NewPostPage from "./pages/NewPostPage.tsx";
 import MyPostsPage from "./pages/MyPostsPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import Feed from "./pages/Feed.tsx";
+
 
 // stores username and email
 interface User {
@@ -41,7 +42,7 @@ function Navigation({ isLoggedIn, onSignOut }: LoginProps) {
           <Link to="/your-posts">Your Posts</Link>
           <Link to="/new-post">New Post</Link>
           <Link to="/settings">Settings</Link>
-          <Link to="/signout">Sign Out</Link>
+          <button onClick={onSignOut}>Sign Out</button>
           </>
           ) : (
             <>
@@ -61,14 +62,37 @@ export function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // on page load, check if valid token exists
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return; 
+
+    fetch("http://localhost:3001/api/validate-token", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.valid) {
+        setCurrentUser(data.user);
+        setIsLoggedIn(true);
+      } else {
+        localStorage.removeItem("token");
+      } })
+    .catch(() => localStorage.removeItem("token"));
+  }, []); // empty dependency array means this runs once on mount
+
+
+
   // handles input validation for login
-  const handleLoginSuccess = (user: User) => {
+  const handleLoginSuccess = (user: User, token: string) => {
+    localStorage.setItem("token", token); // store token for future requests
     setCurrentUser(user);
     setIsLoggedIn(true);
   };
 
   // handles input validation for sign out
   const handleSignOut = () => {
+    localStorage.removeItem("token");
     setCurrentUser(null);
     setIsLoggedIn(false);
   };
