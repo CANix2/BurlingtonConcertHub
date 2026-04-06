@@ -11,9 +11,9 @@ const app = express();
 const IP = process.env.REACT_APP_API_URL;
 
 const JWT_SECRET = process.env.JWT_SECRET // TODO: add JWT secret to .env file for production use, for now we can hardcode it
-const { password: _, ...jwtSafeUser } = user;
-const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
-res.json({ success: true, user: jwtSafeUser, token });
+//const { password: _, ...jwtSafeUser } = user;
+//const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+//res.json({ success: true, user: jwtSafeUser, token });
 
 
 // CORS Configuration
@@ -178,7 +178,8 @@ app.post('/api/login', async (req, res) => {
     }
 
     const { password: _, ...safeUser } = user;
-    res.json({ success: true, user: safeUser });
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ success: true, user: safeUser, token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error.' });
