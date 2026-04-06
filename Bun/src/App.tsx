@@ -65,7 +65,7 @@ export function App() {
     const token = localStorage.getItem("token");
     if (!token) return; 
 
-    fetch("http://localhost:3001/api/validate-token", {
+    fetch("http://localhost:3001/api/me", {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())

@@ -1,5 +1,5 @@
 // pages/NewPost.tsx
-import React, { useState, FormEvent, ChangeEvent } from 'react';
+import React, { useState, type FormEvent, type ChangeEvent } from 'react';
 import './NewPost.css';
 
 // Define types
@@ -95,9 +95,11 @@ const NewPost: React.FC = () => {
 
     // NOTE: IP is stored as "proxy" in package.json
     try {
-      const response = await fetch('/api/posts', {
+      const response = await fetch('http://localhost:3001/api/posts', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+         },
         body: JSON.stringify(formData),
       });
       
@@ -124,6 +126,7 @@ const NewPost: React.FC = () => {
       }, 3000);
       
     } catch (error) {
+      console.error('Error creating post:', error);
       setErrors({
         general: 'Failed to create post. Please try again.'
       });

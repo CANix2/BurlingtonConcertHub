@@ -16,7 +16,9 @@ const PostHolder: React.FC<PostHolderProps> = ({ post, onLike }) => {
     const formattedConcertDate = post.concertDate
         ? new Date(post.concertDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
         : null;
-    const formattedPostDate = post.postDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+   const formattedPostDate = post.created_at 
+    ? new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    : 'Unknown date';
     // const venueLabel = VENUES.find(v => v.value === post.venue)?.label ?? 'Unknown Venue'; // TODO: make venues a constant?
     const venueLabel = post.venue === 'higher_ground' ? 'Higher Ground'    
   : post.venue === 'radio_bean' ? 'Radio Bean'
@@ -52,7 +54,7 @@ const PostHolder: React.FC<PostHolderProps> = ({ post, onLike }) => {
             >
                 ♡       
             </button>
-            <span className="likes-label">{post.likes}</span>
+            <span className="likes-label">{post.likes ?? 0}</span>
         </div>
     );
 
@@ -80,7 +82,7 @@ const PostHolder: React.FC<PostHolderProps> = ({ post, onLike }) => {
                 <p className="post-content">{post.content}</p>
             )}
 
-            {post.tags.length > 0 && (
+            {post.tags && post.tags.length > 0 && (
                 <div className="tags-container">
                 {post.tags.map(tag => (
                     <span key={tag} className="tag">{tag}</span>

@@ -92,11 +92,22 @@ app.post('/api/posts', async (req, res) => {
   if (!artistName || !rating) {
     return res.status(400).json({ error: 'Artist name and rating are required.' });
   }
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'Not authenticated.' });
+
+  const token = authHeader.split(' ')[1];
+  let userId;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    userId = decoded.id;
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
 
   try {
     const [result] = await pool.execute(
-      `INSERT INTO posts (artist_name, venue, rating, content) VALUES (?, ?, ?, ?)`,
-      [artistName, venue, rating, content]
+      `INSERT INTO posts (artist_name, venue, rating, content, account_id) VALUES (?, ?, ?, ?, ?)`,
+      [artistName, venue, rating, content, userId]
     );
     res.status(201).json({ success: true, postId: result.insertId });
   } catch (err) {
@@ -186,7 +197,7 @@ app.get('/api/posts', async (req, res) => {
   res.json(rows);
 });
 
-app.get('/api/mu-posts ', async (req, res) => {
+app.get('/api/my-posts', async (req, res) => {
     const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: 'Not authenticated.' });
 
@@ -204,7 +215,18 @@ app.get('/api/mu-posts ', async (req, res) => {
 });
 
 
+app.get('/api/me', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'No token provided.' });
 
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    res.json({ valid: true, user: decoded });
+  } catch (err) {
+    res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+});
 
 
 

@@ -11,6 +11,8 @@ export interface PostData {
   tags: string[];
   postDate: Date;
   likes: number;
+  accountId: number;
+  created_at: string;
 }
 
 export interface Venue {
