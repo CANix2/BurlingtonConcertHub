@@ -1,7 +1,6 @@
 // pages/NewPost.tsx
 import React, { useState, type FormEvent, type ChangeEvent, useEffect } from 'react';
 import type { PostData } from '../types';
-import { MOCK_POSTS } from '../data/MockPosts.tsx';
 
 import './MyPosts.css';
 import PostHolder from './PostHolder.tsx';
