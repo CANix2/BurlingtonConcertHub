@@ -6,6 +6,8 @@ import MyPostsPage from "./pages/MyPostsPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import Feed from "./pages/Feed.tsx";
+import Venues from "./pages/Venues.tsx";
+import Artists from "./pages/Artists.tsx";
 
 
 // stores username and email
@@ -110,6 +112,8 @@ export function App() {
           <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/register" element={<RegisterPage onRegisterSuccess={handleLoginSuccess} />} />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/venues" element={<Venues />} />
+          <Route path="/artists" element={<Artists />} />
         </Routes>
       </>
     </BrowserRouter>

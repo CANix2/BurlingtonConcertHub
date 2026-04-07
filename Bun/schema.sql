@@ -10,7 +10,29 @@ CREATE TABLE IF NOT EXISTS posts (
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS venues (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  venue       VARCHAR(50) NOT NULL
+);
 
+CREATE TABLE IF NOT EXISTS artists (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  artist      VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS venueposts (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  venue       VARCHAR(50) NOT NULL,
+  title       TEXT NOT NULL,
+  content     TEXT
+);
+
+CREATE TABLE IF NOT EXISTS artistposts (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  artist      VARCHAR(100) NOT NULL,
+  title       TEXT NOT NULL,
+  content     TEXT
+);
 
 CREATE TABLE IF NOT EXISTS accounts (
   id          INT AUTO_INCREMENT PRIMARY KEY,

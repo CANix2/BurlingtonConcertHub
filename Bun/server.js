@@ -191,6 +191,16 @@ app.get('/api/posts', async (req, res) => {
   res.json(rows);
 });
 
+app.get('/api/artistposts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM posts");
+  res.json(rows);
+});
+
+app.get('/api/venueposts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM posts");
+  res.json(rows);
+});
+
 
 app.get('/api/me', (req, res) => {
     const authHeader = req.headers.authorization;
