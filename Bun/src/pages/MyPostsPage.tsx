@@ -360,7 +360,7 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({ onConfirm, onCa
           <button onClick={onCancel} className="cancel-btn">
             Cancel
           </button>
-          <button onClick={onConfirm} className="delete-confirm-btn">
+          <button onClick={onConfirm} className="cursor-pointer rounded-xl bg-red-600 min-w-28 text-blue-50 font-semibold transition duration-300 hover:bg-red-400 hover:text-stone-700">
             Delete Post
           </button>
         </div>
