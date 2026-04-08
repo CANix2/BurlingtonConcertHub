@@ -325,7 +325,15 @@ app.get('/api/me', authenticateToken, (req, res) => {
   res.json({ valid: true, user: { id: req.userId, email: req.userEmail } });
 });
 
-// ============ ERROR HANDLING ============
+
+app.get('/api/account', authenticateToken, async (req, res) => {
+        const [result] = await pool.execute(
+            'SELECT id, email, name FROM accounts WHERE id = ?',
+            [decoded.id]
+        );
+        res.json({ success: true, account: result[0] });
+});
+
 
 // 404 handler for undefined routes
 app.use((req, res) => {

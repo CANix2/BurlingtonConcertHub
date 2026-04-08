@@ -6,6 +6,7 @@ import MyPostsPage from "./pages/MyPostsPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import Feed from "./pages/Feed.tsx";
+import MyAccountPage from "./pages/MyAccountPage.tsx";
 
 // stores username and email
 interface User {
@@ -101,6 +102,7 @@ export function App() {
           </h1>
         <Navigation isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
         <Routes>
+          <Route path="/account" element={<MyAccountPage user={currentUser} />} />
           <Route path="/new-post" element={<NewPostPage />} />
           <Route path="/my-posts" element={<MyPostsPage currentUser={currentUser} />} />
           <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
