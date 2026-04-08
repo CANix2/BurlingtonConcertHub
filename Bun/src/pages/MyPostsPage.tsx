@@ -139,7 +139,7 @@ const MyPostsPage: React.FC<Props> = ({ currentUser }) => {
     <div className="my-posts-container">
       {/* Header */}
       <div className="my-posts-header">
-        <h2>My Posts</h2>
+        <h2 className="text-3xl mb-1">My Posts</h2>
         <p className="subTitle">Your Vermont concert experiences</p>
       </div>
 

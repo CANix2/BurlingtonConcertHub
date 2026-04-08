@@ -38,7 +38,7 @@ function Navigation({ isLoggedIn, onSignOut }: LoginProps) {
           {isLoggedIn ? (
              <>
           <Link to="/account">Account Details</Link>
-          <Link to="/your-posts">Your Posts</Link>
+          <Link to="/my-posts">My Posts</Link>
           <Link to="/new-post">New Post</Link>
           <Link to="/settings">Settings</Link>
           <button onClick={onSignOut}>Sign Out</button>
@@ -102,7 +102,7 @@ export function App() {
         <Navigation isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
         <Routes>
           <Route path="/new-post" element={<NewPostPage />} />
-          <Route path="/your-posts" element={<MyPostsPage currentUser={currentUser} />} />
+          <Route path="/my-posts" element={<MyPostsPage currentUser={currentUser} />} />
           <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/register" element={<RegisterPage onRegisterSuccess={handleLoginSuccess} />} />
           <Route path="/feed" element={<Feed />} />
