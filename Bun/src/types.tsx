@@ -1,8 +1,8 @@
 // types.ts
 
 export interface PostData {
-  id: string;
-  artistName: string;
+  id: number;
+  artist_name: string;
   content: string;
   venue?: string;
   concertDate?: string;

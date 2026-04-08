@@ -40,7 +40,7 @@ const PostHolder: React.FC<PostHolderProps> = ({ post}) => {
         <div className="post-holder">
 
             <div className="post-holder-header">
-                <h3>{post.artistName}</h3>
+                <h3>{post.artist_name}</h3>
                 <span className="post-date">Posted {formattedPostDate}</span>
             </div>
 

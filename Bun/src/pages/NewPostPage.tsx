@@ -4,7 +4,7 @@ import './NewPost.css';
 
 // Define types
 interface PostFormData {
-  artistName: string;
+  artist_name: string;
   content: string;
   venue: string;
   rating: number;
@@ -12,7 +12,7 @@ interface PostFormData {
 
 // what can cause errors
 interface FormErrors {
-  artistName?: string;
+  artist_name?: string;
   content?: string;
   venue?: string;
   rating?: number;
@@ -22,7 +22,7 @@ interface FormErrors {
 const NewPost: React.FC = () => {
   // Initial form state
   const [formData, setFormData] = useState<PostFormData>({
-    artistName: '',
+    artist_name: '',
     venue: 'higher_ground',
     rating: 0,
     content: '',
@@ -68,10 +68,10 @@ const NewPost: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.artistName.trim()) {
-      newErrors.artistName = 'Artist Name is required';
-    } else if (formData.artistName.length > 100) {
-      newErrors.artistName = 'Artist Name must be less than 100 characters';
+    if (!formData.artist_name.trim()) {
+      newErrors.artist_name = 'Artist Name is required';
+    } else if (formData.artist_name.length > 100) {
+      newErrors.artist_name = 'Artist Name must be less than 100 characters';
     }
 
     if (formData.rating < 1) {
@@ -116,7 +116,7 @@ const NewPost: React.FC = () => {
       // Reset form after successful submission
       setTimeout(() => {
         setFormData({
-          artistName: '',
+          artist_name: '',
           venue: '',
           rating: 0,
           content: '',
@@ -168,23 +168,23 @@ const NewPost: React.FC = () => {
 
         {/* Artist Name Field */}
         <div className="form-group">
-          <label htmlFor="artistName">
+          <label htmlFor="artist_name">
             Artist Name <span className="required">*</span>
           </label>
           <input
             type="text"
-            id="artistName"
-            name="artistName"
-            value={formData.artistName}
+            id="artist_name"
+            name="artist_name"
+            value={formData.artist_name}
             onChange={handleInputChange}
             placeholder="Enter artist name"
-            className={errors.artistName ? 'error' : ''}
+            className={errors.artist_name ? 'error' : ''}
             disabled={isSubmitting}
             maxLength={100}
           />
-          {errors.artistName && <span className="error-text">{errors.artistName}</span>}
+          {errors.artist_name && <span className="error-text">{errors.artist_name}</span>}
           <span className="character-count">
-            {formData.artistName.length}/100
+            {formData.artist_name.length}/100
           </span>
         </div>
 
