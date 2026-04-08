@@ -55,15 +55,6 @@ const MyPostsPage: React.FC<Props> = ({ currentUser }) => {
       });
   }, []);
 
-    // for liking a post
-  const handleLike = (id: string) => {
-    setPosts(prev =>
-      prev.map(p => p.id === id ? { ...p, likes: p.likes + 1 } : p)
-    );
-  };
-  if (!currentUser) return <p>You must be logged in to view your posts.</p>;
-  if (loading) return <p>Loading...</p>;
-
   const hasPosts = posts.length > 0;
 
   
@@ -83,7 +74,7 @@ const MyPostsPage: React.FC<Props> = ({ currentUser }) => {
       {hasPosts ? (
         <div className="posts-list">
           {posts.map(post => (
-            <PostHolder key={post.id} post={post} onLike={handleLike} />
+            <PostHolder key={post.id} post={post} />
             
             // <div key={post.id}>{post.artistName}</div> // placeholder until PostCard exists
           ))}

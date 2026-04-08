@@ -4,14 +4,10 @@ import type { PostData, Venue } from '../types';
 
 interface PostHolderProps {
     post: PostData;
-    onLike: (id: string) => void;
 }
 
 
-
-// for handling likes
-
-const PostHolder: React.FC<PostHolderProps> = ({ post, onLike }) => {
+const PostHolder: React.FC<PostHolderProps> = ({ post}) => {
     // derived data
     const formattedConcertDate = post.concertDate
         ? new Date(post.concertDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -23,7 +19,6 @@ const PostHolder: React.FC<PostHolderProps> = ({ post, onLike }) => {
     const venueLabel = post.venue === 'higher_ground' ? 'Higher Ground'    
   : post.venue === 'radio_bean' ? 'Radio Bean'
   : 'Unknown Venue';
-
 
 
     // render stars
@@ -41,26 +36,6 @@ const PostHolder: React.FC<PostHolderProps> = ({ post, onLike }) => {
         </div>
     );
 
-    // handle like click
-    const handleLike = () => onLike(post.id);
-
-    // render likes
-    const renderLikes = () => (
-        <div className="likes-container">
-            <button
-                type="button"
-                className ={`like-btn ${post.likes > 0 ? 'liked' : ''}`}
-                onClick={handleLike}
-            >
-                ♡       
-            </button>
-            <span className="likes-label">{post.likes ?? 0}</span>
-        </div>
-    );
-
-
-
-
     return (
         <div className="post-holder">
 
@@ -75,8 +50,6 @@ const PostHolder: React.FC<PostHolderProps> = ({ post, onLike }) => {
             </div>
 
             {renderStars()}
-
-            {renderLikes()}
 
             {post.content && (
                 <p className="post-content">{post.content}</p>
