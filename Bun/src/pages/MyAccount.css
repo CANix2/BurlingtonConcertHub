@@ -1,0 +1,86 @@
+.account-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.account-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.account-header h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.account-subtitle {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.account-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #7f8c8d;
+}
+
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.account-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #34495e;
+}
+
+.account-form input {
+  padding: 0.65rem 0.9rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  margin-bottom: 0.5rem;
+}
+
+.account-form input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
