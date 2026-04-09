@@ -246,6 +246,49 @@ app.delete('/api/posts/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// ============ SEARCH ROUTE ============
+
+// GET - Search for artists or venues
+app.get('/api/search', async (req, res) => {
+  const { query } = req.query;
+  
+  // Check if query parameter exists
+  if (!query || query.trim() === '') {
+    return res.status(400).json({ 
+      error: 'Search query is required.',
+      artists: [],
+      venues: []
+    });
+  }
+
+  const searchTerm = `%${query.trim()}%`;
+  
+  try {
+    // Search in artists table
+    const [artists] = await pool.execute(
+      `SELECT id, artist FROM artists WHERE artist LIKE ? ORDER BY artist LIMIT 50`,
+      [searchTerm]
+    );
+    
+    // Search in venues table
+    const [venues] = await pool.execute(
+      `SELECT id, venue FROM venues WHERE venue LIKE ? ORDER BY venue LIMIT 50`,
+      [searchTerm]
+    );
+    
+    res.json({
+      success: true,
+      query: query.trim(),
+      artists: artists,
+      venues: venues,
+      total: artists.length + venues.length
+    });
+  } catch (err) {
+    console.error('Error searching:', err);
+    res.status(500).json({ error: 'Database error during search.' });
+  }
+});
+
 // ============ AUTH ROUTES ============
 
 // POST /api/register
