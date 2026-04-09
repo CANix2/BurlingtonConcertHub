@@ -368,7 +368,96 @@ app.get('/api/me', authenticateToken, (req, res) => {
   res.json({ valid: true, user: { id: req.userId, email: req.userEmail } });
 });
 
-// ============ ERROR HANDLING ============
+
+app.get('/api/account', authenticateToken, async (req, res) => {
+        const [result] = await pool.execute(
+            'SELECT id, email, name FROM accounts WHERE id = ?',
+            [req.userId]
+        );
+        res.json({ success: true, account: result[0] });
+});
+
+// update name and email
+app.put('/api/account', authenticateToken, async (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email are required.' });
+  }
+
+  try {
+    // Check if email is already in use by another account
+    const [existing] = await pool.execute(
+      `SELECT id FROM accounts WHERE email = ? AND id != ?`,
+      [email, req.userId]
+    );
+
+    if (existing.length > 0) {
+      return res.status(400).json({ error: 'Email already in use by another account.' });
+    }
+
+    await pool.execute(
+        'UPDATE accounts SET name = ?, email = ? WHERE id = ?',
+        [name, email, req.userId]
+    );
+    res.json({ success: true, message: 'Account updated successfully.' });
+    } catch (err) {
+        console.error('Error updating account:', err);
+        res.status(500).json({ error: 'Database error.' });
+    }
+});
+
+
+// change password
+app.put('/api/account/password', authenticateToken, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Both passwords are required.' });
+  }
+  try {
+    const [result] = await pool.execute(
+      `SELECT password FROM accounts WHERE id = ?`,
+      [req.userId]
+    );
+
+    const passwordMatch = await bcrypt.compare(currentPassword, result[0].password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Current password is incorrect.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await pool.execute(
+      `UPDATE accounts SET password = ? WHERE id = ?`,
+      [hashedPassword, req.userId]
+    );
+
+    res.json({ success: true, message: 'Password changed successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error.' });
+  }
+});
+
+// Delete account
+app.delete('/api/account', authenticateToken, async (req, res) => {
+  try {
+    await pool.execute(
+      `DELETE FROM posts WHERE account_id = ?`,
+      [req.userId]
+    );
+
+    await pool.execute(
+      `DELETE FROM accounts WHERE id = ?`,
+      [req.userId]
+    );
+
+    res.json({ success: true, message: 'Account deleted successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error.' });
+  }
+});
+
 
 // 404 handler for undefined routes
 app.use((req, res) => {
@@ -381,6 +470,8 @@ app.use((err, req, res, next) => {
   console.error('Global error handler:', err);
   res.status(500).json({ error: 'Internal server error' });
 });
+
+
 
 // ============ START SERVER ============
 
