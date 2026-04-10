@@ -192,12 +192,12 @@ app.get('/api/posts', async (req, res) => {
 });
 
 app.get('/api/artistposts', async (req, res) => {
-  const [rows] = await pool.query("SELECT * FROM posts");
+  const [rows] = await pool.query("SELECT * FROM artistposts");
   res.json(rows);
 });
 
 app.get('/api/venueposts', async (req, res) => {
-  const [rows] = await pool.query("SELECT * FROM posts");
+  const [rows] = await pool.query("SELECT * FROM venueposts");
   res.json(rows);
 });
 
