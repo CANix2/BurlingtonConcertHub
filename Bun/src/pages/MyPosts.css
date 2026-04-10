@@ -88,11 +88,6 @@
   line-height: 1;
 }
 
-.star-btn:hover {
-  transform: scale(1.2);
-  color: #f1c40f;
-}
-
 .star-btn.active {
   color: #f1c40f;
 }
@@ -111,27 +106,6 @@
   color: #7f8c8d;
   font-size: 0.9rem;
 }
-
-/* Heart for Likes */
-.heart-btn {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #ddd;
-  line-height: 1;
-}
-
-.heart-btn.active {
-  color: #e74c3c;
-}
-
-/* Image Upload */
-.image-upload-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 
 
 /* Tags */
@@ -227,9 +201,217 @@
   color: #95a5a6;
 }
 
+/* Post Item Wrapper */
+.post-item-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
 
+/* Post Actions */
+.post-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
 
+.edit-btn,
+.delete-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
 
+.edit-btn {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #357abd;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.btn-icon {
+  font-size: 16px;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Edit Modal */
+.edit-modal,
+.confirm-modal {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+/* Edit Form */
+.edit-form {
+  padding: 20px;
+}
+
+.edit-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-form .form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: #1a1a1a; /* Dark color for better readability */
+  font-size: 16px;
+  opacity: 1; /* Ensure full opacity */
+}
+
+.edit-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: black;
+}
+
+.edit-form input,
+.edit-form select,
+.edit-form textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.edit-form input:focus,
+.edit-form select:focus,
+.edit-form textarea:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+/* Rating Stars */
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #ddd;
+  padding: 0 2px;
+}
+
+.star-btn.active {
+  color: #ffc107;
+}
+
+/* Post display stars - static, no hover effects */
+.post-card .rating-container .star-btn,
+.post-holder .rating-container .star-btn,
+.posts-list .rating-container .star-btn {
+  cursor: default;
+  pointer-events: none; /* Prevents any interaction */
+}
+
+/* Remove hover effects for post display stars */
+.post-card .rating-container .star-btn:hover,
+.post-holder .rating-container .star-btn:hover,
+.posts-list .rating-container .star-btn:hover {
+  transform: none;
+  color: inherit;
+}
+
+/* Ensure active stars keep their color but no hover change */
+.post-card .star-btn.active,
+.post-holder .star-btn.active,
+.posts-list .star-btn.active {
+  color: #f1c40f; /* Or your preferred star color */
+}
+
+/* Post display rating label */
+.post-card .rating-label,
+.post-holder .rating-label,
+.posts-list .rating-label {
+  margin-left: 0.5rem;
+  color: #7f8c8d;
+}
+
+.rating-label {
+  margin-left: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Modal Actions */
+.modal-actions {
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px
+}
 
 
 /* Responsive Design */

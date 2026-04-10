@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS posts (
   venue       VARCHAR(50),
   rating      TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
   content     TEXT,
-  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  account_id  INT,
+  FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS venues (

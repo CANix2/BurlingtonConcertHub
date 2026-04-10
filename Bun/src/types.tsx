@@ -1,8 +1,8 @@
 // types.ts
 
 export interface PostData {
-  id: string;
-  artistName: string;
+  id: number;
+  artist_name: string;
   content: string;
   venue?: string;
   concertDate?: string;
@@ -11,6 +11,8 @@ export interface PostData {
   tags: string[];
   postDate: Date;
   likes: number;
+  accountId: number;
+  created_at: string;
 }
 
 export interface Venue {

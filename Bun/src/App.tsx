@@ -6,9 +6,13 @@ import MyPostsPage from "./pages/MyPostsPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import Feed from "./pages/Feed.tsx";
+<<<<<<< HEAD
 import Venues from "./pages/Venues.tsx";
 import Artists from "./pages/Artists.tsx";
 
+=======
+import MyAccountPage from "./pages/MyAccountPage.tsx";
+>>>>>>> origin/main
 
 // stores username and email
 interface User {
@@ -41,7 +45,7 @@ function Navigation({ isLoggedIn, onSignOut }: LoginProps) {
           {isLoggedIn ? (
              <>
           <Link to="/account">Account Details</Link>
-          <Link to="/your-posts">Your Posts</Link>
+          <Link to="/my-posts">My Posts</Link>
           <Link to="/new-post">New Post</Link>
           <Link to="/settings">Settings</Link>
           <button onClick={onSignOut}>Sign Out</button>
@@ -64,12 +68,19 @@ export function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+<<<<<<< HEAD
   // on page load, check if valid token exists
+=======
+>>>>>>> origin/main
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return; 
 
+<<<<<<< HEAD
     fetch("http://localhost:3001/api/validate-token", {
+=======
+    fetch("http://localhost:3001/api/me", {
+>>>>>>> origin/main
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
@@ -81,9 +92,13 @@ export function App() {
         localStorage.removeItem("token");
       } })
     .catch(() => localStorage.removeItem("token"));
+<<<<<<< HEAD
   }, []); // empty dependency array means this runs once on mount
 
 
+=======
+    }, []); 
+>>>>>>> origin/main
 
   // handles input validation for login
   const handleLoginSuccess = (user: User, token: string) => {
@@ -107,8 +122,9 @@ export function App() {
           </h1>
         <Navigation isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
         <Routes>
+          <Route path="/account" element={<MyAccountPage user={currentUser} onSignOut={handleSignOut} />} />
           <Route path="/new-post" element={<NewPostPage />} />
-          <Route path="/your-posts" element={<MyPostsPage />} />
+          <Route path="/my-posts" element={<MyPostsPage currentUser={currentUser} />} />
           <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/register" element={<RegisterPage onRegisterSuccess={handleLoginSuccess} />} />
           <Route path="/feed" element={<Feed />} />
