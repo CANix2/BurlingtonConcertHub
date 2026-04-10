@@ -10,7 +10,7 @@ const app = express();
 const IP = process.env.REACT_APP_API_URL;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const JWT_SECRET = process.env.JWT_SECRET // TODO: add JWT secret to .env file for production use, for now we can hardcode it
+//const JWT_SECRET = process.env.JWT_SECRET // TODO: add JWT secret to .env file for production use, for now we can hardcode it
 //const { password: _, ...jwtSafeUser } = user;
 //const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
 //res.json({ success: true, user: jwtSafeUser, token });
@@ -324,18 +324,11 @@ app.post('/api/register', async (req, res) => {
       `INSERT INTO accounts (email, name, password) VALUES (?, ?, ?)`,
       [email, name, hashedPassword]
     );
-<<<<<<< HEAD
-    const token = jwt.sign({ id: result.insertId, email }, JWT_SECRET, { expiresIn: '7d' });
-    res.status(201).json({ success: true, accountId: result.insertId, token });
-    } catch (err) {
-    console.error(err);
-=======
 
     const token = jwt.sign({ id: result.insertId, email }, JWT_SECRET, { expiresIn: '7d' });
     res.status(201).json({ success: true, accountId: result.insertId, token });
   } catch (err) {
     console.error('Registration error:', err);
->>>>>>> origin/main
     res.status(500).json({ error: 'Database error.' });
   }
 });
@@ -367,10 +360,6 @@ app.post('/api/login', async (req, res) => {
     }
 
     const { password: _, ...safeUser } = user;
-<<<<<<< HEAD
-    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
-    res.json({ success: true, user: safeUser, token });
-=======
 
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
     res.json({ success: true, user: safeUser, token });
@@ -449,7 +438,6 @@ app.put('/api/account/password', authenticateToken, async (req, res) => {
     );
 
     res.json({ success: true, message: 'Password changed successfully.' });
->>>>>>> origin/main
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error.' });
@@ -476,6 +464,16 @@ app.delete('/api/account', authenticateToken, async (req, res) => {
   }
 });
 
+app.get('/api/artistposts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM artistposts");
+  res.json(rows);
+});
+
+app.get('/api/venueposts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM venueposts");
+  res.json(rows);
+});
+
 
 // 404 handler for undefined routes
 app.use((req, res) => {
@@ -489,41 +487,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-app.get('/api/artistposts', async (req, res) => {
-  const [rows] = await pool.query("SELECT * FROM artistposts");
-  res.json(rows);
-});
 
-app.get('/api/venueposts', async (req, res) => {
-  const [rows] = await pool.query("SELECT * FROM venueposts");
-  res.json(rows);
-});
-
-
-<<<<<<< HEAD
-app.get('/api/me', (req, res) => {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        return res.status(401).json({ error: 'No token provided.' });
-    }
-
-    const token = authHeader.split(' ')[1]; // Assuming "Bearer <token>"
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        res.json({ success: true, user: decoded });
-    } catch (err) {
-        console.error(err);
-        res.status(401).json({ error: 'Invalid or expired token.' });
-    }
-});
-
-
-
-=======
 // ============ START SERVER ============
->>>>>>> origin/main
 
 const PORT = 3001;
 

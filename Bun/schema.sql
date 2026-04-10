@@ -1,6 +1,14 @@
 CREATE DATABASE IF NOT EXISTS concerts_db;
 USE concerts_db;
 
+CREATE TABLE IF NOT EXISTS accounts (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  email       VARCHAR(100) NOT NULL UNIQUE,
+  password    VARCHAR(255) NOT NULL,
+  name        VARCHAR(50) NOT NULL,
+  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS posts (
   id          INT AUTO_INCREMENT PRIMARY KEY,
   artist_name VARCHAR(100) NOT NULL,
@@ -34,14 +42,6 @@ CREATE TABLE IF NOT EXISTS artistposts (
   artist      VARCHAR(100) NOT NULL,
   title       TEXT NOT NULL,
   content     TEXT
-);
-
-CREATE TABLE IF NOT EXISTS accounts (
-  id          INT AUTO_INCREMENT PRIMARY KEY,
-  email       VARCHAR(100) NOT NULL UNIQUE,
-  password    VARCHAR(255) NOT NULL,
-  name        VARCHAR(50) NOT NULL,
-  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO venueposts (venue, title, content)
