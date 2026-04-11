@@ -34,8 +34,6 @@ function Navigation({ isLoggedIn, onSignOut }: LoginProps) {
       <Link to="/feed">Feed</Link>
       <Link to="/venues">Venues</Link>
       <Link to="/artists">Artists</Link>
-      <Link to="/concerts">Past Concerts</Link>
-      <Link to="/map">Map</Link>
       <div className="dropdown">
         <button className="dropbtn">Account
           <i className="fa fa-caret-down"></i>
