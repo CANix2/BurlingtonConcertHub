@@ -10,6 +10,12 @@ const app = express();
 const IP = process.env.REACT_APP_API_URL;
 const JWT_SECRET = process.env.JWT_SECRET;
 
+//const JWT_SECRET = process.env.JWT_SECRET // TODO: add JWT secret to .env file for production use, for now we can hardcode it
+//const { password: _, ...jwtSafeUser } = user;
+//const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+//res.json({ success: true, user: jwtSafeUser, token });
+
+
 // CORS Configuration
 const corsOptions = {
   origin: [
@@ -458,6 +464,16 @@ app.delete('/api/account', authenticateToken, async (req, res) => {
   }
 });
 
+app.get('/api/artistposts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM artistposts");
+  res.json(rows);
+});
+
+app.get('/api/venueposts', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM venueposts");
+  res.json(rows);
+});
+
 
 // 404 handler for undefined routes
 app.use((req, res) => {
@@ -470,7 +486,6 @@ app.use((err, req, res, next) => {
   console.error('Global error handler:', err);
   res.status(500).json({ error: 'Internal server error' });
 });
-
 
 
 // ============ START SERVER ============

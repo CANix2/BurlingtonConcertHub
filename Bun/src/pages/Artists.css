@@ -1,0 +1,18 @@
+.post-card .artist {
+    font-size: 0.85rem;
+    color: gray;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 4px 0;
+}
+
+.post-card h3 {
+    font-size: 1.2rem;
+    margin: 0 0 6px 0;
+}
+
+.post-card .content {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0;
+}
