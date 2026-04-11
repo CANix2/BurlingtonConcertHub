@@ -474,6 +474,29 @@ app.get('/api/venueposts', async (req, res) => {
   res.json(rows);
 });
 
+app.get('/api/artists', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM artists ORDER BY artist ASC");
+  res.json(rows);
+});
+
+app.get('/api/venues', async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM venues ORDER BY venue ASC");
+  res.json(rows);
+});
+
+app.post('/api/artists', async (req, res) => {
+  const { artist } = req.body;
+  if (!artist) return res.status(400).json({ error: 'Artist name is required.' });
+  const [result] = await pool.execute(`INSERT INTO artists (artist) VALUES (?)`, [artist]);
+  res.status(201).json({ success: true, artistId: result.insertId });
+});
+
+app.post('/api/venues', async (req, res) => {
+  const { venue } = req.body;
+  if (!venue) return res.status(400).json({ error: 'Venue name is required.' });
+  const [result] = await pool.execute(`INSERT INTO venues (venue) VALUES (?)`, [venue]);
+  res.status(201).json({ success: true, venueId: result.insertId });
+});
 
 // 404 handler for undefined routes
 app.use((req, res) => {

@@ -1,5 +1,6 @@
 // pages/NewPost.tsx
-import React, { useState, type FormEvent, type ChangeEvent } from 'react';
+import React, { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
+import { Link } from 'react-router-dom';
 import './NewPost.css';
 
 // Define types
@@ -19,6 +20,16 @@ interface FormErrors {
   general?: string;
 }
 
+interface ArtistOption {
+  id: number;
+  artist: string;
+}
+
+interface VenueOption {
+  id: number;
+  venue: string;
+}
+
 const NewPost: React.FC = () => {
   // Initial form state
   const [formData, setFormData] = useState<PostFormData>({
@@ -32,11 +43,26 @@ const NewPost: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
 
-  // VENUES
-  const VENUES = [
-    {value: 'higher_ground', label: 'Higher Ground'},
-    {value: 'radio_bean', label: 'Radio Bean'},
-  ];
+  const [artists, setArtists] = useState<ArtistOption[]>([]);
+  const [venues, setVenues] = useState<VenueOption[]>([]);  
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/artists')
+      .then(res => res.json())
+      .then(data => {
+        console.log('artists data:', data);
+        setArtists(Array.isArray(data) ? data : []);
+      })
+      .catch(() => console.error('Failed to fetch artists'));
+  
+    fetch('http://localhost:3001/api/venues')
+      .then(res => res.json())
+      .then(data => {
+        console.log('venues data:', data);
+        setVenues(Array.isArray(data) ? data : []);
+      })
+      .catch(() => console.error('Failed to fetch venues'));
+  }, []);
 
   // Handle input changes
   const handleInputChange = (
@@ -171,21 +197,23 @@ const NewPost: React.FC = () => {
           <label htmlFor="artist_name">
             Artist Name <span className="required">*</span>
           </label>
-          <input
-            type="text"
+          <select
             id="artist_name"
             name="artist_name"
             value={formData.artist_name}
             onChange={handleInputChange}
-            placeholder="Enter artist name"
             className={errors.artist_name ? 'error' : ''}
             disabled={isSubmitting}
-            maxLength={100}
-          />
+          >
+            <option value="">— Select an artist —</option>
+            {artists.map(a => (
+              <option key={a.id} value={a.artist}>{a.artist}</option>
+            ))}
+          </select> 
           {errors.artist_name && <span className="error-text">{errors.artist_name}</span>}
-          <span className="character-count">
-            {formData.artist_name.length}/100
-          </span>
+          <p className="add-new-text">
+            Don't see your artist? <Link to="/new-artist">Click here to add</Link>
+          </p>
         </div>
 
         {/* Venue Field */}
@@ -201,13 +229,17 @@ const NewPost: React.FC = () => {
             className={errors.venue ? 'error' : ''}
             disabled={isSubmitting}
           >
-            {VENUES.map(ven => (
-              <option key={ven.value} value={ven.value}>
-                {ven.label}
+            <option value="">- Select a venue -</option>
+            {venues.map(v => (
+              <option key={v.id} value={v.venue}>
+                {v.venue}
               </option>
             ))}
           </select>
           {errors.venue && <span className="error-text">{errors.venue}</span>}
+          <p className="add-new-text">
+            Don't see your venue? <Link to="/new-venue">Click here to add</Link>
+          </p>
         </div>
 
         {/* Rating Field */}
