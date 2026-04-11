@@ -41,7 +41,6 @@ function Navigation({ isLoggedIn, onSignOut }: LoginProps) {
           <Link to="/account">Account Details</Link>
           <Link to="/my-posts">My Posts</Link>
           <Link to="/new-post">New Post</Link>
-          <Link to="/settings">Settings</Link>
           <button onClick={onSignOut}>Sign Out</button>
           </>
           ) : (
