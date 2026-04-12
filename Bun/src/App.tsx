@@ -10,6 +10,7 @@ import Venues from "./pages/Venues.tsx";
 import Artists from "./pages/Artists.tsx";
 import NewArtist from "./pages/NewArtist.tsx";
 import NewVenue from "./pages/NewVenue.tsx";
+import HomePage from "./pages/HomePage.tsx";
 
 import MyAccountPage from "./pages/MyAccountPage.tsx";
 
@@ -106,6 +107,7 @@ export function App() {
           </h1>
         <Navigation isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/account" element={<MyAccountPage user={currentUser} onSignOut={handleSignOut} />} />
           <Route path="/new-post" element={<NewPostPage />} />
           <Route path="/my-posts" element={<MyPostsPage currentUser={currentUser} />} />
