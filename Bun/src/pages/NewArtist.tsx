@@ -15,27 +15,28 @@ const NewArtist: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     
+    // Handle input changes
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
-    }
-  };  
-  
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
+        if (errors[name as keyof FormErrors]) {
+            setErrors(prev => ({ ...prev, [name]: undefined }));
+        }
+    };  
+    // Validate form
+    const validateForm = (): boolean => {
+        const newErrors: FormErrors = {};
 
-    if (!formData.artist.trim()) {
-      newErrors.artist = 'Artist Name is required';
-    } else if (formData.artist.length > 100) {
-      newErrors.artist = 'Artist Name must be less than 100 characters';
-    }
+        if (!formData.artist.trim()) {
+        newErrors.artist = 'Artist Name is required';
+        } else if (formData.artist.length > 100) {
+        newErrors.artist = 'Artist Name must be less than 100 characters';
+        }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+// Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       
@@ -56,12 +57,12 @@ const NewArtist: React.FC = () => {
           body: JSON.stringify(formData),
         });
         
+        const data = await response.json();
+
         if (!response.ok) {
-          const { error } = await response.json();
-          throw new Error(error || 'Failed to add artist.');
+          throw new Error(data.error || 'Failed to add artist.');
         }
   
-        const data = await response.json();
         console.log('server response:', data);
   
         setSubmitSuccess(true);
@@ -90,7 +91,8 @@ const NewArtist: React.FC = () => {
             <h2>Add New Artist</h2>
             <p className="subTitle">Add an artist to the Vermont Concert Hub</p>
           </div>
-    
+        
+        {/* New Artist's Name */}
           <form onSubmit={handleSubmit} className="new-post-form">
             <div className="form-group">
               <label htmlFor="artist">
@@ -110,7 +112,7 @@ const NewArtist: React.FC = () => {
               {errors.artist && <span className="error-text">{errors.artist}</span>}
               <span className="character-count">{formData.artist.length}/100</span>
             </div>
-    
+            {/* Success & Error messages */}
             {submitSuccess && (
               <div className="success-message">
                 <span className="success-icon">✓</span>
@@ -123,7 +125,8 @@ const NewArtist: React.FC = () => {
                 <p>{errors.general}</p>
               </div>
             )}
-    
+
+            {/* Submit Button */}
             <div className="form-actions">
               <button type="button" className="cancel-btn" onClick={() => window.history.back()} disabled={isSubmitting}>
                 Cancel

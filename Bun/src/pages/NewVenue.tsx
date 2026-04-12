@@ -14,15 +14,16 @@ const NewVenue: React.FC = () => {
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
-    
+
+  // Handle input changes
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
-    }
-  };  
-  
+        if (errors[name as keyof FormErrors]) {
+            setErrors(prev => ({ ...prev, [name]: undefined }));
+        }
+    };  
+    // Validate form
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -35,7 +36,7 @@ const NewVenue: React.FC = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+// Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       
@@ -90,7 +91,7 @@ const NewVenue: React.FC = () => {
             <h2>Add New Venue</h2>
             <p className="subTitle">Add a venue to the Vermont Concert Hub</p>
           </div>
-    
+        { /* New Venue Field */}
           <form onSubmit={handleSubmit} className="new-post-form">
             <div className="form-group">
               <label htmlFor="venue">
