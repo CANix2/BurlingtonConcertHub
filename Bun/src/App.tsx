@@ -8,6 +8,8 @@ import LoginPage from "./pages/LoginPage.tsx";
 import Feed from "./pages/Feed.tsx";
 import Venues from "./pages/Venues.tsx";
 import Artists from "./pages/Artists.tsx";
+import NewArtist from "./pages/NewArtist.tsx";
+import NewVenue from "./pages/NewVenue.tsx";
 
 import MyAccountPage from "./pages/MyAccountPage.tsx";
 
@@ -32,8 +34,6 @@ function Navigation({ isLoggedIn, onSignOut }: LoginProps) {
       <Link to="/feed">Feed</Link>
       <Link to="/venues">Venues</Link>
       <Link to="/artists">Artists</Link>
-      <Link to="/concerts">Past Concerts</Link>
-      <Link to="/map">Map</Link>
       <div className="dropdown">
         <button className="dropbtn">Account
           <i className="fa fa-caret-down"></i>
@@ -114,6 +114,8 @@ export function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/venues" element={<Venues />} />
           <Route path="/artists" element={<Artists />} />
+          <Route path="/new-artist" element={<NewArtist />} />
+          <Route path="/new-venue" element={<NewVenue />} />
         </Routes>
       </>
     </BrowserRouter>
