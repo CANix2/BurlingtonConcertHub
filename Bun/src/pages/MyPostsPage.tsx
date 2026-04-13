@@ -173,7 +173,19 @@ const MyPostsPage: React.FC<Props> = ({ currentUser }) => {
         <div className="posts-list">
           {posts.map(post => (
             <div key={post.id} className="post-item-wrapper">
-              <PostHolder post={post} />
+              <h3>{post.artist_name}</h3>
+              {post.venue && <p className="venue">{post.venue}</p>}
+                            <p className="rating">
+                                {'★'.repeat(post.rating)}{'☆'.repeat(5 - post.rating)}
+                            </p>
+                            {post.content && <p className="content">{post.content}</p>}
+                            <p className="created-at">
+                                {new Date(post.created_at).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                })}
+              </p>
               <div className="post-actions">
                 <button 
                   className="edit-btn"
